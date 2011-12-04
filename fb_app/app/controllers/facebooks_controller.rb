@@ -1,3 +1,4 @@
+require 'json'
 class FacebooksController < ApplicationController
   # GET /facebooks
   # GET /facebooks.xml
@@ -26,7 +27,7 @@ class FacebooksController < ApplicationController
     #Koala::Facebook::OAuth.new(oauth_callback_url).
 		
 		# redirect to facebook to get your code
-		redirect_to session['oauth'].url_for_oauth_code(:permissions =>'read_friendlists,friends_checkins')
+		redirect_to session['oauth'].url_for_oauth_code(:permissions =>'read_friendlists,friends_checkins,user_checkins')
 
   end
 
@@ -50,17 +51,50 @@ class FacebooksController < ApplicationController
 
        # do some stuff with facebook here
        # for example:
-       @graph = Koala::Facebook::GraphAPI.new(session["access_token"])
-              permissions = @graph.get_connections('me','permissions')
-       print permissions
-#       friendlist = @graph.get_connections('me','friends')
+       @graph = Koala::Facebook::API.new(session["access_token"])
+#       @graph = Koala::Facebook::API.new(session["oauth_token"]) 
+#              permissions = @graph.get_connections('me','permissions')
+#       print permissions
+       friendlist = @graph.get_connections('me','friends',:fields=>"name,gender,relationship_status")
 #       print friendlist
+     id_array = Array.new
+      friendlist.each do |item|
+#        print item["id"]
+#        if id_array.length <= 10
+         id_array << item["id"]
+#        end
+       
+      end  
+      
+#      print JSON.parse(jsonString)
+#       print friendlist.to_json
 #       @likes = @graph.get_connections("me", "likes")
 #       
 #       print @likes
 
-      my =  @graph.get_object('660163880')
-      print my
+#      @graph = Koala::Facebook::API.new(session["access_token"])
+#      friends_object = @graph.batch do |batch_api|
+#            batch_api.get_objects(id_array)
+#      end      
+#      i=0
+#      print friends_object
+      friendlist.each do |friend_detail|
+#        print friend_detail
+        @friend = Friend.new(friend_detail)
+        print @friend.name
+      end
+#      
+#      end
+#      friends_object = friends_object.to_json
+#      print friends_object
+#      id_array.each do |id|
+#        print friends_object["id"]
+#      end
+#      list=  id_array.join(",")
+#      friends_object = @graph.fql_query("select uid, name, pic_square from user where ids in (#{id_array.join(",")})")
+#      print friends_object
+#      my =  @graph.get_objects(id_array)
+#      print my
 #@rest = Koala::Facebook::API.new(session['access_token'])
 #
 #      me = @rest.fql_query("select name from user where uid = 2905623")
