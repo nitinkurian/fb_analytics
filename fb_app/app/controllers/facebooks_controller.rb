@@ -57,55 +57,25 @@ class FacebooksController < ApplicationController
 #       print permissions
        friendlist = @graph.get_connections('me','friends',:fields=>"name,gender,relationship_status")
 #       print friendlist
-     id_array = Array.new
-      friendlist.each do |item|
+#     id_array = Array.new
+#      friendlist.each do |item|
 #        print item["id"]
 #        if id_array.length <= 10
-         id_array << item["id"]
+#         id_array << item["id"]
 #        end
-       
-      end  
-      
-#      print JSON.parse(jsonString)
-#       print friendlist.to_json
-#       @likes = @graph.get_connections("me", "likes")
-#       
-#       print @likes
-
-#      @graph = Koala::Facebook::API.new(session["access_token"])
-#      friends_object = @graph.batch do |batch_api|
-#            batch_api.get_objects(id_array)
-#      end      
-#      i=0
-#      print friends_object
+#      end  
+      @friend_list= Array.new
       friendlist.each do |friend_detail|
 #        print friend_detail
         @friend = Friend.new(friend_detail)
-        print @friend.name
+        
       end
-#      
-#      end
-#      friends_object = friends_object.to_json
-#      print friends_object
-#      id_array.each do |id|
-#        print friends_object["id"]
-#      end
-#      list=  id_array.join(",")
-#      friends_object = @graph.fql_query("select uid, name, pic_square from user where ids in (#{id_array.join(",")})")
-#      print friends_object
-#      my =  @graph.get_objects(id_array)
-#      print my
-#@rest = Koala::Facebook::API.new(session['access_token'])
-#
-#      me = @rest.fql_query("select name from user where uid = 2905623")
-#      print me
-       # publish to your wall (if you have the permissions)
-       # @graph.put_wall_post("I'm posting from my new cool app!")
-       # or publish to someone else (if you have the permissions too ;) )
-       # @graph.put_wall_post("Checkout my new cool app!", {}, "someoneelse's id")
      else
        @face='<a href="/facebooks/login">Login</a>'
      end
 
   end
+  
+  private getGenderStatus
+  
 end
