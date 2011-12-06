@@ -1,3 +1,17 @@
 <h1>Menu  Services </h1>
 <%= @ok %>
 <%= @face.html_safe %>
+<% @user.analytics.gender_stats.each do |k,v|  %>
+<p>
+    <%= k %>
+    <%= v %>
+</p>
+ <% end %>
+
+<p>The relationship stats</p>
+<% @user.analytics.relationship_stats.each do |k,v|  %>
+<p>
+    <%= k %>
+    <%= v %>
+</p>
+ <% end %>
