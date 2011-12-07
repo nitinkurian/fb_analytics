@@ -17,7 +17,7 @@ class FacebooksController < ApplicationController
     #Koala::Facebook::OAuth.new(oauth_callback_url).
 		
 		# redirect to facebook to get your code
-		redirect_to session['oauth'].url_for_oauth_code(:permissions =>'read_friendlists,friends_checkins,user_checkins')
+		redirect_to session['oauth'].url_for_oauth_code(:permissions =>'read_friendlists,friends_checkins,user_checkins,friends_location')
 
   end
 
@@ -44,10 +44,10 @@ class FacebooksController < ApplicationController
       
       user_details = @graph.get_object('me')
       @user = User.new(user_details)
-      friendlist = @graph.get_connections('me','friends',:fields=>"name,gender,relationship_status")
+      friendlist = @graph.get_connections('me','friends',:fields=>"name,gender,relationship_status,hometown")
       friend_list= Array.new()
       friendlist.each do |friend_detail|
-#        print friend_detail
+        print friend_detail
         @friend = Friend.new(friend_detail)
         friend_list << @friend
       end

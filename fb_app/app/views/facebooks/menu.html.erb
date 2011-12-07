@@ -15,3 +15,11 @@
     <%= v %>
 </p>
  <% end %>
+
+<p>The Hometown stats</p>
+<% @user.analytics.hometown_stats.each do |k,v|  %>
+<p>
+    <%= k %>
+    <%= v %>
+</p>
+<% end %>

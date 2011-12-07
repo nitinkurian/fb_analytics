@@ -22,7 +22,7 @@ class User
   end
   
   def generate_stats
-    @analytics.generate_stats(@friend_list)
+    @analytics.generate_stats(@friend_list, self)
   end
   def analytics
     @analytics
